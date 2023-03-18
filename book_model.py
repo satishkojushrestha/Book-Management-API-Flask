@@ -1,5 +1,4 @@
 from mysql import connector
-import json
 
 class BookModel():
 
@@ -15,7 +14,10 @@ class BookModel():
             
     def book_getall_model(self, book_id):
         #Query execution code
-        self.cur.execute(f"SELECT * FROM books WHERE bookid LIKE '{book_id}'")
+        if book_id == "all":
+           self.cur.execute(f"SELECT * FROM books")
+        else:
+            self.cur.execute(f"SELECT * FROM books WHERE bookid LIKE '{book_id}'")
         result = self.cur.fetchall()
         if len(result) > 0:         
             return result   
@@ -36,4 +38,11 @@ class BookModel():
         else:
             return "Nothing to Update"
     
+    def book_delete_model(self, book_id):
+        #Query execution code
+        self.cur.execute(f"DELETE FROM books WHERE bookid LIKE '{book_id}'")
+        if self.cur.rowcount > 0:
+            return "Book Deleted Successfully"
+        else:
+            return "Nothing to Update"
     
