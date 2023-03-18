@@ -20,19 +20,18 @@ class Book(Resource):
     def get(self, book_id):
         if book_id == "all":
             return books
-        if book_id in books:
-            return books[book_id]
+        # if book_id in books:
+        #     return books[book_id]
         # if book_id not in books:
         #     abort(404, message=f"Book {book_id} not found")                
         return obj.book_getall_model(book_id)
         
-    def put(self, book_id):
+    def post(self, book_id):
         # args = parser.parse_args()
         # new_book = {'title': args['title']}
-        # books[book_id] = new_book
-        title = request.form['title']
-        doi = request.form['doi']        
-        return obj.book_add_model(title, doi)
+        # books[book_id] = new_book   
+        data = request.form  
+        return obj.book_add_model(book_id, data)
 
     def delete(self, book_id):
         if book_id not in books:
@@ -40,9 +39,9 @@ class Book(Resource):
         del books[book_id]
         return "", 204 
 
-    def post(self, book_id):
-        books[book_id] = request.form['data']
-        return {book_id: books[book_id]},201
+    def put(self, book_id):
+        data = request.form  
+        return obj.book_update_model(book_id, data)
 
 api.add_resource(Book, '/book/<book_id>')
 

@@ -7,6 +7,7 @@ class BookModel():
         #Connection establishment code
         try:
             self.conn = connector.connect(host="localhost", user="root", password="", database="flask")
+            self.conn.autocommit = True
             self.cur = self.conn.cursor(dictionary=True)
             print("Connection Successful")
         except:
@@ -14,7 +15,7 @@ class BookModel():
             
     def book_getall_model(self, book_id):
         #Query execution code
-        self.cur.execute(f"SELECT * FROM books WHERE idbooks={book_id}")
+        self.cur.execute(f"SELECT * FROM books WHERE bookid LIKE '{book_id}'")
         result = self.cur.fetchall()
         if len(result) > 0:         
             return result   
@@ -22,12 +23,17 @@ class BookModel():
         else:
             return "No Data Found"
         
-    def book_add_model(self, title, doi):
+    def book_add_model(self, bookid, data):
         #Query execution code
-        self.cur.execute(f"INSERT INTO books(title, doi) VALUES('{title}','{doi}')")
-        result = self.cur.fetchall()
-        if len(result) > 0:         
-            return result   
-            # return json.dumps(result)
+        self.cur.execute(f"INSERT INTO books(bookid, title, doi) VALUES('{bookid}','{data['title']}','{data['doi']}')")
+        return "Book Successfully Added"
+    
+    def book_update_model(self, book_id, data):
+        #Query execution code
+        self.cur.execute(f"UPDATE books SET title='{data['title']}', doi='{data['doi']}' WHERE bookid LIKE '{book_id}'")
+        if self.cur.rowcount > 0:
+            return "Book Successfully Updated"
         else:
-            return "No Data Found"
+            return "Nothing to Update"
+    
+    
