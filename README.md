@@ -12,13 +12,13 @@ Reading Data:<br>
 /book1/ - Shows book1 detail<br>
 
 Creating:<br>
-/create/book3/<br>
+/create/book3<br>
 
 Updating:<br>
-/update/book3/<br>
+/update/book3<br>
 
 Deleting:<br>
-/delete/book3/<br>
+/delete/book3<br>
 
 # Inserting, Updating, and Deleting using CURL:
 Create:<br>
