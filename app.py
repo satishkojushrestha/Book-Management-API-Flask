@@ -7,23 +7,23 @@ api = Api(app)
 
 obj = BookModel()
 
-class Book(Resource):
+@app.route('/<book_id>/')
+def get(book_id):          
+    return obj.book_getall_model(book_id)
+    
+@app.route('/create/<book_id>', methods=['POST'])    
+def post(book_id):
+    data = request.form  
+    return obj.book_add_model(book_id, data)
 
-    def get(self, book_id):          
-        return obj.book_getall_model(book_id)
-        
-    def post(self, book_id):
-        data = request.form  
-        return obj.book_add_model(book_id, data)
+@app.route('/delete/<book_id>', methods=['DELETE'])
+def delete(book_id):      
+    return obj.book_delete_model(book_id) 
 
-    def delete(self, book_id):      
-        return obj.book_delete_model(book_id) 
-
-    def put(self, book_id):
-        data = request.form  
-        return obj.book_update_model(book_id, data)
-
-api.add_resource(Book, '/<book_id>/')
+@app.route('/update/<book_id>', methods=['PUT'])
+def put(book_id):
+    data = request.form  
+    return obj.book_update_model(book_id, data)
 
 if __name__ == '__main__':
     app.run()
